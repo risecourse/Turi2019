@@ -19,6 +19,8 @@ cd ValidationTests
 
 ../x86_64/special -c icurrent=<current_amplitude> IinjectionAt<neuron_type>.hoc
 
+../x86_64/special -c icurrent=0.2 IinjectionAtPyramidal.hoc
+
 # <current_amplitude>: the injected at soma current in nA
 # <neuron_type> valid values
 
@@ -104,7 +106,7 @@ python glim_v2_prelearning.py <total_number_of_runs>
 python glim_v2_speed_mod.py <total_number_of_runs> <modulation_type> # <modulation_type> is 'pos' or 'neg', e.g., python glim_v2_speed_mod.py 5 pos
 
 # Then enter background_noise directory
-cd ../backgroun_noise
+cd ../background_noise
 
 # create the background noise by executing 
 
@@ -121,6 +123,8 @@ cd ../
 
 # Run the simulation
 .x86_64/special -nogui -c nruns=<run_number> -c ntrials=<virtual_mouse_id> -c n_neuron=<deletion_type> Network_prelearning.hoc
+
+.x86_64/special -nogui -c nruns=1 -c ntrials=1 -c n_neuron=<deletion_type> Network_prelearning.hoc
 
 #e.g., .x86_64/special -nogui -c nruns=1-c ntrials=1 -c n_neuron=No_VIPcells Network_prelearning.hoc
 
@@ -146,6 +150,8 @@ cd ../
 
 #e.g., .x86_64/special -nogui -c nruns=1-c ntrials=1 -c n_neuron=No_VIPcells Network_locomotion.hoc
 
+/Users/luka.pusic/Desktop/Turi_et_al_2018/x86_64/special -nogui -c n_runs=1-c n_trials=1 -c n_neuron=0 Network_locomotion.hoc
+
 # Output of the simulation is saved into Simulation_Results/locomotion
 
 #################### ANALYSIS OF LOCOMOTION DATA BEFORE PROCEEDING #####################################################
@@ -157,6 +163,8 @@ cd AnalysisRawData
 # Exctract spike times
 
 python spiketimes_analysis.py <neuron_type> <learning_mode> <deletion_type> <number_of_trial> <number_of_run>
+
+python spiketimes_analysis.py _pysoma_ prelearning Control 1 1
 
 # Valid <neuron_type> values:
 
@@ -201,7 +209,7 @@ cd ../
 
 .x86_64/special -nogui -c nruns=<run_number> -c ntrials=<virtual_mouse_id> -c n_neuron=<deletion_type> Network_reward.hoc
 
-#e.g., .x86_64/special -nogui -c nruns=1-c ntrials=1 -c n_neuron=No_VIPcells Network_reward.hoc
+#e.g., .x86_64/special -nogui -c n_runs=1-c n_trials=1 -c n_neuron=0 Network_reward.hoc
 
 # Output of the simulation is saved into Simulation_Results/reward
 

@@ -39,7 +39,7 @@ x_array = range(0,myx,5)
 y_array = [1]
 
 my_run=int(sys.argv[1])
-print my_run
+print(my_run)
 
 maindir = 'runs_produced_by_python_prelearning/'
 
@@ -65,7 +65,7 @@ else:
 
 
 path = []
-for i in xrange(1, npoints+1):
+for i in range(1, npoints+1):
     if (ny > myy):
         break
     
@@ -109,7 +109,7 @@ path = np.array(path)
 filename = dirname+'/path.txt'
 np.savetxt(filename, path, fmt='%.0f', delimiter=' ')
 
-print 'Done with the path'
+print('Done with the path')
 
 ###############################################################################
 ####################### G R I D    L I K E    I N P U T S  ####################
@@ -138,14 +138,14 @@ for xxx in x_array:
 
         angle = 0.0
         lambda_var = 3.0       
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             lambda_var += 0.5
             angle += 0.4
-            for x in xrange(myx):
-                for y in xrange(myy):  #to d einai to shmeio x,y tou grid field tou dend ni
+            for x in range(myx):
+                for y in range(myy):  #to d einai to shmeio x,y tou grid field tou dend ni
                     d[ni, x, y] = gridfield(angle, lambda_var, xxx, yyy, x, y)
 
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             dd += d[ni,:,:]
 
         
@@ -192,9 +192,9 @@ for xxx in x_array:
         
         
         
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             spikes = []           
-            for i in xrange(len(path)): # i einai o xronos
+            for i in range(len(path)): # i einai o xronos
                 current_loc = path[i, :]
                 
                 probability = d[ni, current_loc[0]-1, current_loc[1]-1]
@@ -209,4 +209,4 @@ for xxx in x_array:
             filename2 = folder2+'/s'+str(ni)+'.txt'
             np.savetxt(filename2, spikes, fmt='%.0d', delimiter=' ')
        
-        print 'Done with Grid field ' +str(my_field)
+        print('Done with Grid field ' +str(my_field))

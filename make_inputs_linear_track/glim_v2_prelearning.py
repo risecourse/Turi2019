@@ -7,7 +7,7 @@ time_delay = 400 # ms, for NEURON to reach a steady state
 
 n_place_fields = 41
 for nrun in range(1,Nruns+1):
-    print 'RUN '+str(nrun)+' ...\n'
+    print('RUN '+str(nrun)+' ...\n')
 
     random.seed(nrun)
     p='run_' + str(nrun) + '/'
@@ -19,7 +19,7 @@ for nrun in range(1,Nruns+1):
     
     
     listdirs = []
-    for pl in xrange(1,n_place_fields+1):    
+    for pl in range(1,n_place_fields+1):    
         listdirs.append('place_field_'+str(pl))
 
     counter=0
@@ -52,10 +52,10 @@ for nrun in range(1,Nruns+1):
 
     Ncells = counter
     # Check all files!
-    for cnt in xrange(Ncells):
+    for cnt in range(Ncells):
         with open(dest+'g'+str(cnt)+'_CA3.txt', 'r') as f:
             lines = f.readlines()
             lines = [int(x.strip()) for x in lines]
-            for j in xrange(len(lines)-1):
+            for j in range(len(lines)-1):
                 if lines[j] == lines[j+1]:
-                    print cnt,lines[j],lines[j+1]
+                    print(cnt,lines[j],lines[j+1])

@@ -40,7 +40,7 @@ y_array = [1]
 
 my_run=int(sys.argv[1])
 
-print my_run
+print(my_run)
 
 maindir1 = 'runs_produced_by_python_speed_pos/'
 maindir2 = 'runs_produced_by_python_speed_neg/'
@@ -70,19 +70,19 @@ else:
 
 
 path = []
-for i in xrange(1, npoints+1):
+for i in range(1, npoints+1):
     if (ny > myy):
         break
     
     if ((i >= 70) and (i <=95)) or ((i >= 105) and (i <=130)): 
         # random time at each point
-        print 'Enters/Leaves reward zone'
+        print('Enters/Leaves reward zone')
         mu = 140-np.abs(100-i)
         sigma = 2
         # random time at each point
         z = np.round(mu + np.random.randn(1).item()*sigma)      
     elif (i > 95) and (i < 105):
-        print 'In reward zone'
+        print('In reward zone')
         mu = 500-np.abs(100-i)
         sigma = 5
         # random time at each point
@@ -123,7 +123,7 @@ path = np.array(path)
 filename = dirname1+'/path.txt'
 np.savetxt(filename, path, fmt='%.0f', delimiter=' ')
 
-print 'Done with the path'
+print('Done with the path')
 
 ###############################################################################
 ####################### G R I D    L I K E    I N P U T S  ####################
@@ -153,14 +153,14 @@ for xxx in x_array:
 
         angle = 0.0
         lambda_var = 3.0       
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             lambda_var += 0.5
             angle += 0.4
-            for x in xrange(myx):
-                for y in xrange(myy):  #to d einai to shmeio x,y tou grid field tou dend ni
+            for x in range(myx):
+                for y in range(myy):  #to d einai to shmeio x,y tou grid field tou dend ni
                     d[ni, x, y] = gridfield(angle, lambda_var, xxx, yyy, x, y)
 
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             dd += d[ni,:,:]
 
         
@@ -207,10 +207,10 @@ for xxx in x_array:
         
         
         
-        for ni in xrange(ndend):
+        for ni in range(ndend):
             spikes1 = []
             spikes2 = []         
-            for i in xrange(len(path)): # i represent the time in ms
+            for i in range(len(path)): # i represent the time in ms
                 current_loc = path[i, :]-1
                 
 
@@ -250,7 +250,7 @@ for xxx in x_array:
             np.savetxt(filename1, spikes1, fmt='%.0d', delimiter=' ')
             np.savetxt(filename2, spikes2, fmt='%.0d', delimiter=' ')
        
-        print 'Done with Grid field ' +str(my_field)
+        print('Done with Grid field ' +str(my_field))
 
 
 
