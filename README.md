@@ -3,15 +3,21 @@
 # for more information, refer to the comments inside the scripts or contact me in: chavlis [DOT] spiros [AT] gmail [DOT] com
 # Scripts' author: S. Chavlis, PhD
 
-export PYRNUM=13
-export TOTTRIALS=1 # paper figures need 10
-export TOTRUNS=5 # paper figures need 5
-export DURATION=1 # 172 for locomotion and reward, 113 for prelearning
-export poisson_rate=5
+# The whole model script system can be executed by calling a series of shell scripts that have been pulled together into one:
+runallscripts.sh
 
-export CaseVal="Control No_VIPcells No_VIPCR No_VIPCCK No_VIPPVM No_VIPNVM No_VIPCRtoBC No_VIPCRtoOLM"
-export cellVal="_pvsoma_ _aacell_ _bcell_ _bscell_ _olm_ _vipcck_ _vipcr_ _vipcrnvm_"
-export learningVal="prelearning locomotion reward"
+# First it defines some global variables and then it calls the scripts with the necessary arguments for each argument (cell type, condition, run, learning type)
+
+export PYRNUM=13 # number of pyramidal cells. Full size = 130
+export TOTTRIALS=1 # number of trials; paper figures use 10
+export TOTRUNS=5 # number of runs; paper figures use 5
+export DURATION=1 # number of theta cycles for simulation length; paper figures use 172 for locomotion and reward, 113 for prelearning
+export poisson_rate=5 # setting for background noise
+
+# export CaseVal="Control No_VIPcells No_VIPCR No_VIPCCK No_VIPPVM No_VIPNVM No_VIPCRtoBC No_VIPCRtoOLM" # different conditions
+export CaseVal="Control" # choosing only to run and plot the control condition
+export cellVal="_pvsoma_ _aacell_ _bcell_ _bscell_ _olm_ _vipcck_ _vipcr_ _vipcrnvm_" # different cell types
+export learningVal="prelearning locomotion reward" # learning types
 
 
 
@@ -35,9 +41,3 @@ sh runreward.sh
 
 ######## Analyze and save plots
 sh finalanalyze.sh
-
-
-
-
-
-
