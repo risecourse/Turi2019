@@ -1,4 +1,4 @@
-// CA1 Netwrok with grid-like inputs
+// CA1 Network with grid-like inputs
 
 
 // Based on Cutsuridis et al, 2009
@@ -68,7 +68,9 @@ STARTDEL = 500  // msecs
 THETA    = 125 // msecs (8 Hz)
 GAMMA    = 25  // msecs (40 Hz)
 
-duration = 1 // total time of "active" simulation, turn back to 172
+if (name_declared("duration") == 0) {
+	duration = 172 // total time of "active" simulation
+}
 
 SIMDUR = TINIT + (THETA*duration) + STARTDEL/10 // simulation duration (msecs)
 
@@ -84,8 +86,12 @@ nplf  = 41 // number of theoretical place fields
 ndend = 8
 probability = 0.40 // probability of place cell formation
 
+if (name_declared("pyrcellnum") == 0) {
+	pyrcellnum = 130
+}
+
 scale     = 1
-npcell    = 13*scale // Turn back to 130
+npcell    = pyrcellnum*scale
 naacell   = 2*scale   
 nbcell    = 8*scale   
 nbscell   = 2*scale 

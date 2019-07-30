@@ -96,21 +96,24 @@ cd make_inputs_linear_track
 
 In a command line execute
 
-python make_grid_like_inputs_speed_prelearning.py <run_number>
+python make_grid_like_inputs_prelearning.py <run_number>
 python make_grid_like_inputs_speed_mod.py <run_number>
 
-# <run_number> is a specific run form one edge of the track to the other. To replicate the figures one needs 5 runs
+# <run_number> is a specific run form one edge of the track to the other.
+# To replicate the figures one needs 5 runs
 
 # After the simulation of all runs create the grid-like inputs by executing
 python glim_v2_prelearning.py <total_number_of_runs>
-python glim_v2_speed_mod.py <total_number_of_runs> <modulation_type> # <modulation_type> is 'pos' or 'neg', e.g., python glim_v2_speed_mod.py 5 pos
+python glim_v2_speed_mod.py <total_number_of_runs> <modulation_type> 
+# <modulation_type> is 'pos' or 'neg', e.g., python glim_v2_speed_mod.py 5 pos
 
 # Then enter background_noise directory
 cd ../background_noise
 
 # create the background noise by executing 
 
-python poisson_input.py <total_number_of_runs> <poisson_rate>  # e.g., poisson_input.py 5 5
+python poisson_input.py <total_number_of_runs> <poisson_rate>  
+# e.g., poisson_input.py 5 5
 
 
 #################### PRELEARNING SIMULATIONS #######################################################################
@@ -164,7 +167,7 @@ cd AnalysisRawData
 
 python spiketimes_analysis.py <neuron_type> <learning_mode> <deletion_type> <number_of_trial> <number_of_run>
 
-python spiketimes_analysis.py _pysoma_ prelearning Control 1 1
+python spiketimes_analysis.py _pvsoma_ prelearning Control 1 1
 
 # Valid <neuron_type> values:
 
@@ -172,7 +175,7 @@ python spiketimes_analysis.py _pysoma_ prelearning Control 1 1
 # _aacell_   : Axoaxonic cells
 # _bcell_    : Basket cells
 # _bscell_   : Bistratified cells
-# _olmcell_  : OLM cells
+# _olm_  : OLM cells
 # _vipcck_   : VIP/CCK cells
 # _vipcr_    : VIP/CR PVM cells
 # _vipcrnvm_ : VIP/CR NVM cells
@@ -187,11 +190,13 @@ python spiketimes_analysis.py _pysoma_ prelearning Control 1 1
 
 # After the analysis for all trials, runs and deletions execute:
 
-python all_path_all_spiketimes.py <learning_mode> # e.g., python all_path_all_spiketimes.py locomotion
+# 20190728 - MB added second command line argument for nruns
+python all_path_all_spiketimes.py <learning_mode>  <nruns> 
+# e.g., python all_path_all_spiketimes.py locomotion 5
 
-# This will create the subfolder data_analysis/locomotion/metrics_permutations
+# This will create the subfolder data_analysis/metrics_permutations/locomotion
 # or
-# data_analysis/prelearning/metrics_permutations
+# data_analysis/metrics_permutations/prelearning
 # where the spiketimes and the path for all cases is stored (for better handling)
 
 # Then execute the command below to calculate whose cell firing rate is above the threshold in the reward zone
@@ -209,7 +214,7 @@ cd ../
 
 .x86_64/special -nogui -c nruns=<run_number> -c ntrials=<virtual_mouse_id> -c n_neuron=<deletion_type> Network_reward.hoc
 
-#e.g., .x86_64/special -nogui -c n_runs=1-c n_trials=1 -c n_neuron=0 Network_reward.hoc
+#e.g., .x86_64/special -nogui -c n_runs=1 -c n_trials=1 -c n_neuron=0 Network_reward.hoc
 
 # Output of the simulation is saved into Simulation_Results/reward
 

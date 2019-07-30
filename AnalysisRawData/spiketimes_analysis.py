@@ -19,7 +19,7 @@ def extract_spiketimes(neuron_type,learning,condition,ntrial,nrun):
     
     # Peakdet parameters
     delta = 1
-    
+    print('neuron type=' + neuron_type)
     if neuron_type=='_pvsoma_':
         Nneurons=13 #LP return back to 130
         thres = 5 # remove spikelets
@@ -41,6 +41,7 @@ def extract_spiketimes(neuron_type,learning,condition,ntrial,nrun):
     for n_neuron in range(Nneurons):
 
         
+        #filename = filepath+'/Trial_'+ntrial+'_Run_'+nrun+'_'+neuron_type+'_'+str(n_neuron)+'.dat'
         filename = filepath+'/Trial_'+ntrial+'_Run_'+nrun+neuron_type+str(n_neuron)+'.dat'
     
         
@@ -59,6 +60,7 @@ def extract_spiketimes(neuron_type,learning,condition,ntrial,nrun):
     
     #Saves the list in a pickle file at the specified Run directory
     filewrite = filepath + '/spiketimes'+ neuron_type +'.pkl'
+    print('about to save: ' + filewrite)
     with open(filewrite, 'wb') as handle:
         pickle.dump(spiketimes_all, handle, protocol=pickle.HIGHEST_PROTOCOL)
             

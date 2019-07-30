@@ -18,8 +18,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-print seven
-
 def analysis_path_cluster(ntrial,case,learning):
     
     folder1='data_analysis'
@@ -39,7 +37,7 @@ def analysis_path_cluster(ntrial,case,learning):
     npath_x = 200
     npath_y = 1
     # Number of pyramidal
-    Ncells  = 130
+    Ncells  = pyrcellnum # reduced for testing 130
     Nbins   = 100
     skernel = 3.0 /(npath_x/Nbins)
     runsAll = 5
@@ -55,10 +53,10 @@ def analysis_path_cluster(ntrial,case,learning):
     fileload  = folder1 +'/metrics_permutations/'+learning
     
     with open(fileload+'/path_all_trial_'+str(ntrial)+'.pkl', 'rb') as f:
-        path_all=pickle.load(f)    
+        path_all=pickle.load(f, encoding='latin1')    
     
     with open(fileload+'/spiketimes_all_trial_'+str(ntrial)+'.pkl', 'rb') as f:
-        spiketimes_all=pickle.load(f)
+        spiketimes_all=pickle.load(f, encoding='latin1')
     
     # Loop for all pyramidals
     for npyr in range(Ncells):
@@ -90,7 +88,8 @@ def analysis_path_cluster(ntrial,case,learning):
 #                print "File does not exist."
 #                continue
 
-            spiketimes = spiketimes_all['Run'+str(nrun)]['Pyramidal'+str(npyr)][case]            
+            spiketimes = spiketimes_all['Run'+str(nrun)]['Pyramidal'+str(npyr)][case]   
+
 
             
             Z = spike_map(spiketimes,csum, npath_x, npath_y)
@@ -120,7 +119,10 @@ def analysis_path_cluster(ntrial,case,learning):
     print('\nDone with the rate maps')
 
 
-    fig, axes = plt.subplots(nrows=13, ncols=10,figsize=(20, 20))
+    if pyrcellnum==130:
+        fig, axes = plt.subplots(nrows=13, ncols=10,figsize=(20, 20))
+    else:
+        fig, axes = plt.subplots(nrows=pyrcellnum, ncols=1,figsize=(20, 20))
     nn=0
     for ax in axes.flat:
         Max = np.max(rateMaps[nn,:,:])
@@ -160,7 +162,7 @@ def analysis_path_cluster(ntrial,case,learning):
     cax = divider.append_axes("right", size="5%", pad=0.05)
     plt.colorbar(im, cax=cax)
     ax.set_xlim((0, Nbins))
-    ax.set_xticks(range(0,Nbins+1, 50 / (npath_x/Nbins)) )
+    ax.set_xticks(range(0,Nbins+1, 50 // (npath_x//Nbins)) )
     ax.set_xticklabels(['-0.5', '-0.25', '0', '0.25', '0.5'], fontsize = 13)
     ax.set_yticks(range(0,Ncells+1, 20))
     ax.set_yticklabels([str(x) for x in range(0,Ncells+1, 20)], fontsize = 13)    
@@ -189,6 +191,7 @@ tic      = time.time()
 ntrial   = sys.argv[1]
 case     = sys.argv[2]
 learning = sys.argv[3]
+pyrcellnum = int(sys.argv[4])
 results  = analysis_path_cluster(ntrial,case,learning)
 toc      = time.time()
 

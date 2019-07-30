@@ -6,7 +6,7 @@ Created on Thu Apr 27 11:01:48 2017
 @author: spiros
 """
 import pickle
-import os
+import os, sys
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams['pdf.fonttype'] = 42
@@ -16,7 +16,10 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 #from scipy.stats import sem
 from place_cell_metrics import field_size, peak_frequency
 
-def bar_plots(mydict, metric, path_figs, learning):
+Npyramidals = int(sys.argv[1])
+
+
+def bar_plots(mydict, metric, path_figs, learning, Npyramidals=130):
     import matplotlib.pyplot as plt
     import numpy as np
     import scipy.stats
@@ -91,7 +94,6 @@ def bar_plots(mydict, metric, path_figs, learning):
     plt.close()
 
 
-Npyramidals = 130
 Nperms      = 500 
 Nbins       = 100
 
@@ -103,9 +105,9 @@ nTrials = 10
 numbers_ALL         = {}
 numbers_rwd_ALL     = {}
 for learning in ['prelearning','locomotion', 'reward']:
-    print "\nLEARNING: ", learning
-    print
-    print
+    print("\nLEARNING: ", learning)
+    print(" ")
+    print(" ")
     spec='data_analysis'
     
     os.system('mkdir -p '+spec+'/figures_final/'+learning)
@@ -138,11 +140,10 @@ for learning in ['prelearning','locomotion', 'reward']:
                 rateMaps[case] = loaded_data['maps']
             else:
                 rateMaps[case] = np.concatenate((rateMaps[case], loaded_data['maps']), axis=0)
-    
+       
             fileload_perms = spec+'/metrics_permutations/'+learning+'/perms_pickled_info_'+case+'_Mouse_'+ntrial+'.pkl'
             with open(fileload_perms, 'rb') as f:
-                infor_per=pickle.load(f)
-            
+                infor_per=pickle.load(f)            
             
             for npyr in xrange(Npyramidals):
                 info = list(infor_per[npyr,:])
@@ -258,6 +259,3 @@ for learning in ['prelearning','locomotion', 'reward']:
         plt.cla()
         plt.clf()
         plt.close()
-
-
-

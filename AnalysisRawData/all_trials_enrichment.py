@@ -6,7 +6,7 @@ Created on Thu Apr 27 11:01:48 2017
 @author: spiros
 """
 import pickle
-import os
+import os, sys
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams['pdf.fonttype'] = 42
@@ -117,7 +117,7 @@ def bar_plots(mydict, metric, learning, path_figs, baseline):
 
 fnames = 'Simulation_Results/'
 
-my_list = ['Control','No_VIPcells','No_VIPCR', 'No_VIPCCK', 'No_VIPPVM', 'No_VIPNVM', 'No_VIPCRtoBC','No_VIPCRtoOLM' ]
+my_list = ['Control'] #,'No_VIPcells','No_VIPCR', 'No_VIPCCK', 'No_VIPPVM', 'No_VIPNVM', 'No_VIPCRtoBC','No_VIPCRtoOLM' ]
 
 npath_x,npath_y = 200, 1
 xlim1,xlim2     = 80, 110
@@ -125,14 +125,14 @@ Nbins           = 100
 
 xrew1,xrew2 = xlim1/(npath_x/Nbins), xlim2/(npath_x/Nbins)+1
 
-trialsAll   = 10
-Npyramidals = 130
+Npyramidals = int(sys.argv[1])
+trialsAll = int(sys.argv[2])
 
 
 everything = {}
 for learning in ['prelearning','locomotion', 'reward']:
             
-    print "\nLEARNING: ", learning
+    print("\nLEARNING: ", learning)
     print
     print
     spec='data_analysis'
@@ -146,7 +146,7 @@ for learning in ['prelearning','locomotion', 'reward']:
 
     
     for ntrial in trials:
-        print "TRIAL:",ntrial
+        print("TRIAL:",ntrial)
         rateMaps        = {}
         numbers_plc     = {}
         numbers_rwd     = {}
@@ -159,7 +159,7 @@ for learning in ['prelearning','locomotion', 'reward']:
             
             numbersALL          = 0
             numbersrwdALL       = 0
-            for npyr in xrange(Npyramidals):
+            for npyr in range(Npyramidals):
                 
                 rate_map = rateMaps[case][npyr,:,:]
                 maxpeak   = np.max(rate_map)
@@ -168,6 +168,7 @@ for learning in ['prelearning','locomotion', 'reward']:
 
                 lim1 = 8/(npath_x/Nbins)
                 lim2 = 40/(npath_x/Nbins)
+
                 if maxpeak >= 3.0 and lim1<=sizetest1:
                     numbersALL+=1
                     
@@ -184,11 +185,13 @@ for learning in ['prelearning','locomotion', 'reward']:
                 numbers_all[case].append(numbers_plc[case])
             else:
                 numbers_all[case]=[numbers_plc[case]]
-
-            if case in numbers_rwd_all.keys():
-                numbers_rwd_all[case].append(numbers_rwd[case]/float(numbers_plc[case]))
+            if numbers_plc[case]!=0:
+                if case in numbers_rwd_all.keys():
+                    numbers_rwd_all[case].append(numbers_rwd[case]/float(numbers_plc[case]))
+                else:
+                    numbers_rwd_all[case]=[numbers_rwd[case]/float(numbers_plc[case])]
             else:
-                numbers_rwd_all[case]=[numbers_rwd[case]/float(numbers_plc[case])]
+                numbers_rwd_all[case]=0
                 
                 
     mydict_all={}                    
@@ -207,9 +210,9 @@ for case in my_list:
         
         A.append(everything[learning]['numbers_rwd'][case])
 
-    A1[case] = [x for x in A[0]]
-    A2[case] = [x for x in A[1]]
-    A3[case] = [x for x in A[2]]
+    A1[case] = [x for x in [A[0]]]
+    A2[case] = [x for x in [A[1]]]
+    A3[case] = [x for x in [A[2]]]
 
 learning = ['prelearning','locomotion', 'reward']
 N = len(my_list)

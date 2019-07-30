@@ -24,7 +24,7 @@ def spike_map(spiketimes,csum, npath_x, npath_y):
                 Z[idx,:] += 1
     
     if Z.shape[0] != npath_x or Z.shape[1] != npath_y:
-        print 'Error in Z dimensions'
+        print('Error in Z dimensions')
     
     return Z
 
@@ -42,7 +42,7 @@ def binning(a, N, method):
         raise ValueError('Not a valid binning size.')
     
     # find the step
-    step = L/N
+    step = L//N
     
     b = np.zeros(N)
     

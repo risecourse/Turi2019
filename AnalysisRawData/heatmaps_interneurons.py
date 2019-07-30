@@ -13,7 +13,7 @@ from functions_analysis import spike_map, binning
 
 
 
-def analysis_path_cluster(ntrial,case,learning, inter):
+def analysis_path_cluster(ntrial,case,learning, inter, Ncells  = 130):
 
     folder1='data_analysis'
     
@@ -23,7 +23,7 @@ def analysis_path_cluster(ntrial,case,learning, inter):
     fdname2 = '/'+folder1+'/metrics_interneurons/'    
     
     cond = '../Simulation_Results/'+learning+'/'+case
-    print "Analyse ... " + case +" trial "+ntrial +" " +learning 
+    print("Analyse ... " + case +" trial "+ntrial +" " +learning )
     
     os.system('mkdir -p '+folder1+'/figures_interneurons/'+learning+'/')
     os.system('mkdir -p '+folder1+'/metrics_interneurons/'+learning+'/')
@@ -34,20 +34,19 @@ def analysis_path_cluster(ntrial,case,learning, inter):
     # Give path dimensions
     npath_x = 200
     npath_y = 1
-    # Number of pyramidal
-    Ncells  = 130
+    # Ncells = Number of pyramidal, passed into function
     Nbins   = 100
     skernel = 3.0 /(npath_x/Nbins)
     runsAll = 5
     
     # Number of basket cells
-    if inter=='bcell':
+    if inter=='_bcell_':
         Ncells = 8
-    elif inter=='vipcck' or inter=='vipcrnvm':
+    elif inter=='_vipcck_' or inter=='_vipcrnvm_':
         Ncells=1
-    elif inter=='vipcr':
+    elif inter=='_vipcr_':
         Ncells=4
-    elif inter=='olm' or inter=='aacell' or inter=='bscell':
+    elif inter=='_olm_' or inter=='_aacell_' or inter=='_bscell_':
         Ncells = 2
 
     # 3-d matrix of all interneurons
@@ -59,7 +58,7 @@ def analysis_path_cluster(ntrial,case,learning, inter):
     fileload  = folder1 +'/metrics_permutations/'+learning
     
     with open(fileload+'/path_all_trial_'+str(ntrial)+'.pkl', 'rb') as f:
-        path_all=pickle.load(f)    
+        path_all=pickle.load(f, encoding='latin1')    
         
     # Loop for all INs
     for ncell in range(Ncells):
@@ -77,9 +76,9 @@ def analysis_path_cluster(ntrial,case,learning, inter):
             csum = np.cumsum(time_array)
             
 
-            fileload = cond+'/Trial_'+str(ntrial)+'/Run_'+str(nrun)+'/spiketimes_'+inter+'_.pkl'
+            fileload = cond+'/Trial_'+str(ntrial)+'/Run_'+str(nrun)+'/spiketimes'+inter+'.pkl'
             with open(fileload, 'rb') as f:
-                spiketimes_all=pickle.load(f)
+                spiketimes_all=pickle.load(f, encoding='latin1')
             spiketimes = spiketimes_all[ncell][1:]
             
             
@@ -101,7 +100,7 @@ def analysis_path_cluster(ntrial,case,learning, inter):
         time_array_in_bin[int(ncell),:,:]  = time_array_all.reshape(-1,1)
         
 
-    print '\nDone with the rate maps'
+    print('\nDone with the rate maps')
 
     #==============================================================================
     # ##################### RATE MAPS SAVING #################################
@@ -118,7 +117,7 @@ def analysis_path_cluster(ntrial,case,learning, inter):
     with open(filesave+'/pickled_sn_'+inter+'_'+case+'_'+ntrial+'.pkl', 'wb') as handle:
         pickle.dump(mydict, handle, protocol=pickle.HIGHEST_PROTOCOL)
     
-    print "\nDone with "+case+" analysis. Done with trial "+ntrial
+    print("\nDone with "+case+" analysis. Done with trial "+ntrial)
 
 
 tic      = time.time()
@@ -126,7 +125,8 @@ ntrial   = sys.argv[1]
 case     = sys.argv[2]
 learning = sys.argv[3]
 inter    = sys.argv[4]
-results  = analysis_path_cluster(ntrial,case,learning,inter)
+Ncells   = int(sys.argv[5])
+results  = analysis_path_cluster(ntrial,case,learning,inter,Ncells)
 toc      = time.time()
 
-print "\nTotal time: "+str(round(toc-tic,3))+" seconds"
+print("\nTotal time: "+str(round(toc-tic,3))+" seconds")

@@ -6,7 +6,7 @@ Created on Thu Mar 22 15:18:16 2018
 @author: spiros
 """
 import sys
-def spiketimes_path_load(learning):
+def spiketimes_path_load(learning, nruns=1):
     import pickle, os
     import numpy as np
     fsave='data_analysis/metrics_permutations/'+learning+'/'
@@ -15,7 +15,7 @@ def spiketimes_path_load(learning):
     #my_list = ['Control','No_VIPcells','No_VIPCR', 'No_VIPCCK', 'No_VIPPVM', 'No_VIPNVM', 'No_VIPCRtoBC','No_VIPCRtoOLM' ]
     my_list = ['Control']
 
-    nruns       = 1 #LP change back to 5
+    #nruns       = 1 #LP change back to 5
     trials      = 1 #LP change back to 7
     Npyramidals = 13 #LPchange back to 130
     for ntrial in range(1, trials+1):
@@ -25,6 +25,10 @@ def spiketimes_path_load(learning):
         spiketimes_all = {}
         path_all       = []
         for nrun in range(1, nruns+1):
+#        for nrun in range(nruns, nruns+1):# 20190728 MB cropped this range
+                                          # possibly due to earlier oversight
+                                          # where files are only produced for
+                                          # last run instead of all runs.
             print("RUN: "+str(nrun))
 
             ### Load PATH and SPIKETIMES of Pyramidal npyr
@@ -67,4 +71,5 @@ def spiketimes_path_load(learning):
 
 
 learning = sys.argv[1]
-spiketimes_path_load(learning)
+nruns = int(sys.argv[2])
+spiketimes_path_load(learning, nruns)
